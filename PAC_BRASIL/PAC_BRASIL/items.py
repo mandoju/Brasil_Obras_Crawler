@@ -11,6 +11,7 @@ import scrapy
 class PacBrasilItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    tipo_obra = scrapy.Field()
     titulo_obra = scrapy.Field()
     orgao_responsavel = scrapy.Field()
     executor = scrapy.Field()

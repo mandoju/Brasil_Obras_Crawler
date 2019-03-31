@@ -7,7 +7,14 @@ from PAC_BRASIL.items import PacBrasilItem
 class PacSpider(CrawlSpider):
     name = 'pac'
     allowed_domains = ['www.pac.gov.br']
-    start_urls = ['http://www.pac.gov.br/infraestrutura-logistica/rodovias']
+    start_urls = ['http://www.pac.gov.br/infraestrutura-logistica/rodovias',
+        'http://www.pac.gov.br/infraestrutura-logistica/ferrovias',
+        'http://www.pac.gov.br/infraestrutura-logistica/portos',
+        'http://www.pac.gov.br/infraestrutura-logistica/hidrovias',
+        'http://www.pac.gov.br/infraestrutura-logistica/aeroportos',
+        'http://www.pac.gov.br/infraestrutura-logistica/defesa',
+        'http://www.pac.gov.br/infraestrutura-logistica/comunicacoes',
+        'http://www.pac.gov.br/infraestrutura-logistica/ciencia-e-tecnologia']
     rules = (
             Rule(LinkExtractor(allow=(), restrict_css=('.pag_prox > a',)),
                 callback="parse_item",
@@ -20,6 +27,7 @@ class PacSpider(CrawlSpider):
         rows = table.xpath('//tr')
         rows_texts = rows.xpath('td//text()')
         item = PacBrasilItem()
+        item['tipo_obra'] = response.css('#breadcrumb > .construct > p > a::text')[2].extract()
         item['titulo_obra'] = response.css('.titulo_pagina::text').extract()[0]
         item['orgao_responsavel'] = rows_texts[0].extract()
         item['executor'] = rows_texts[1].extract()
